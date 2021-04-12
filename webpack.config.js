@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { HotModuleReplacementPlugin } = require('webpack')
 
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
@@ -28,13 +29,14 @@ const jsLoaders = () => {
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
-  entry: ['@babel/polyfill', '/index.js'],
+  entry: ['@babel/polyfill', '/app.ts'],
+  target: 'web',
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.ts', '.tsx', '.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@core': path.resolve(__dirname, 'src/core'),
@@ -47,6 +49,7 @@ module.exports = {
     liveReload: true,
   },
   plugins: [
+    new HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       template: 'index.html',
@@ -67,6 +70,10 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader'
+      },
       {
         test: /\.s[ac]ss$/i,
         use: [
