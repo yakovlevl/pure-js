@@ -1,0 +1,67 @@
+@mixin transition($for: all, $time: .3s, $how: ease-in-out) {
+  transition: $for $time $how;
+}
+
+@mixin button($color: green, $size: 18px, $radius: 50%) {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 100%;
+  min-width: 24px;
+  text-align: center;
+  position: relative;
+  padding: 0;
+  display: inline-block;
+  color: rgba(#000, .7);
+
+  span {
+    font-size: $size;
+    padding: 5px;
+    @include transition();
+    &:active, &.active {
+      color: $color;
+      background-color: rgba($color, .1) !important;
+    }
+
+    &:hover {
+      border-radius: $radius;
+      cursor: pointer;
+      background-color: #eee;
+    }
+  }
+}
+
+@function rem($pixels, $context: $mainFontSize) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1rem;
+}
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin placeholder {
+  ::-webkit-input-placeholder {
+    @content
+  }
+
+  :-moz-placeholder {
+    @content
+  }
+
+  ::-moz-placeholder {
+    @content
+  }
+
+  :-ms-input-placeholder {
+    @content
+  }
+}
