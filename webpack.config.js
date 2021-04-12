@@ -67,6 +67,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: filename('css'),
     }),
+    new HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
